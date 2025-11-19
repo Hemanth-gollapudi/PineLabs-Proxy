@@ -1,20 +1,75 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/pineController');
 
-// POST /api/upload
-router.post('/upload', controller.upload);
+const pineController = require('../controllers/pineController');
+const auth = require('../middleware/auth');
+const validateBody = require('../middleware/validateBody');
 
-// POST /api/status
-router.post('/status', controller.getStatus);
+router.post(
+  '/upload',
+  auth,
+  validateBody([
+    'TransactionNumber',
+    'SequenceNumber',
+    'AllowedPaymentMode',
+    'Amount',
+    'MerchantID',
+    'SecurityToken',
+  ]),
+  pineController.upload
+);
 
-// POST /api/cancel
-router.post('/cancel', controller.cancel);
- 
-// POST /api/void 
-router.post('/void', controller.voidTransaction);
+router.post(
+  '/status',
+  auth,
+  validateBody([
+    'MerchantID',
+    'SecurityToken',
+    'PlutusTransactionReferenceID'
+  ]),
+  pineController.getStatus
+);
 
-// POST /api/ForceCancel
-router.post('/forceCancel', controller.forceCancel);
+router.post(
+  '/cancel',
+  auth,
+  validateBody([
+    'MerchantID',
+    'SecurityToken',
+    'PlutusTransactionReferenceID',
+    'Amount'
+  ]),
+  pineController.cancel
+);
+
+router.post(
+  '/void',
+  auth,
+  validateBody([
+    'TransactionNumber',
+    'AllowedPaymentMode',
+    'Clientid',
+    'StoreID',
+    'MerchantID',
+    'SecurityToken',
+    'TxnType',
+    'OriginalPlutusTransactionReferenceID'
+  ]),
+  pineController.voidTransaction
+);
+
+router.post(
+  '/force-cancel',
+  auth,
+  validateBody([
+    'StoreID',
+    'Clientid',
+    'MerchantID',
+    'SecurityToken',
+    'PlutusTransactionReferenceID',
+    'Amount'
+  ]),
+  pineController.forceCancel
+);
 
 module.exports = router;

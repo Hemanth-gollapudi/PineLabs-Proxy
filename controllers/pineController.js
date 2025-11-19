@@ -116,7 +116,7 @@ const forceCancel = async (req, res) => {
       'SecurityToken',
       'PlutusTransactionReferenceID',
       'Amount',
-      'TakeToHomeScreen'
+      // 'TakeToHomeScreen'
     ];
 
     const missing = required.filter(k => !(k in payload));
