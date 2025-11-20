@@ -5,10 +5,7 @@ const pineController = require('../controllers/pineController');
 const auth = require('../middleware/auth');
 const validateBody = require('../middleware/validateBody');
 
-router.post(
-  '/upload',
-  auth,
-  validateBody([
+router.post('/upload',auth,validateBody([
     'TransactionNumber',
     'SequenceNumber',
     'AllowedPaymentMode',
@@ -19,10 +16,7 @@ router.post(
   pineController.upload
 );
 
-router.post(
-  '/status',
-  auth,
-  validateBody([
+router.post('/status',auth,validateBody([
     'MerchantID',
     'SecurityToken',
     'PlutusTransactionReferenceID'
@@ -30,10 +24,7 @@ router.post(
   pineController.getStatus
 );
 
-router.post(
-  '/cancel',
-  auth,
-  validateBody([
+router.post('/cancel',auth,validateBody([
     'MerchantID',
     'SecurityToken',
     'PlutusTransactionReferenceID',
@@ -42,10 +33,7 @@ router.post(
   pineController.cancel
 );
 
-router.post(
-  '/void',
-  auth,
-  validateBody([
+router.post('/void',auth,validateBody([
     'TransactionNumber',
     'AllowedPaymentMode',
     'Clientid',
@@ -58,10 +46,7 @@ router.post(
   pineController.voidTransaction
 );
 
-router.post(
-  '/force-cancel',
-  auth,
-  validateBody([
+router.post('/force-cancel',auth,validateBody([
     'StoreID',
     'Clientid',
     'MerchantID',
